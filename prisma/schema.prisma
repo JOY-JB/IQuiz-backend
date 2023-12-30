@@ -41,23 +41,23 @@ model QuizCategory {
 }
 
 model Question {
-  id            String       @id @default(uuid())
-  text          String
-  options       String[]
-  correctOption String
-  quizId        String
-  quizzes       QuizCategory @relation(fields: [quizId], references: [id])
+  id             String       @id @default(uuid())
+  text           String
+  options        String[]
+  correctOption  String
+  quizCategoryId String
+  quizzes        QuizCategory @relation(fields: [quizCategoryId], references: [id])
 }
 
 model QuizAttempt {
-  id          String       @id @default(uuid())
-  userId      String
-  user        User         @relation(fields: [userId], references: [id])
-  quizId      String
-  quiz        QuizCategory @relation(fields: [quizId], references: [id])
-  score       Int
-  startedAt   DateTime
-  completedAt DateTime
+  id             String       @id @default(uuid())
+  userId         String // Performer User ID
+  user           User         @relation(fields: [userId], references: [id])
+  quizCategoryId String
+  quiz           QuizCategory @relation(fields: [quizCategoryId], references: [id])
+  score          Int
+  startedAt      DateTime
+  completedAt    DateTime
 }
 
 enum UserRole {
