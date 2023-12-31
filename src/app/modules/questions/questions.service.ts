@@ -12,6 +12,14 @@ const getAllQuestions = async (
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(options);
 
+  console.log({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  });
+
   const result = await prisma.question.findMany({
     skip,
     take: limit,
