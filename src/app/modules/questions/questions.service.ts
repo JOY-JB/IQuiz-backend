@@ -8,23 +8,21 @@ import prisma from '../../../shared/prisma';
 
 const getAllQuestions = async (
   options: IPaginationOptions
-): Promise<IGenericResponse<Question[]>> => {
+): Promise<IGenericResponse<Partial<Question>[]>> => {
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(options);
-
-  console.log({
-    skip,
-    take: limit,
-    orderBy: {
-      [sortBy]: sortOrder,
-    },
-  });
 
   const result = await prisma.question.findMany({
     skip,
     take: limit,
     orderBy: {
       [sortBy]: sortOrder,
+    },
+    select: {
+      id: true,
+      text: true,
+      options: true,
+      quizCategoryId: true,
     },
   });
 
@@ -48,7 +46,7 @@ const createQuestion = async (data: Question): Promise<Question> => {
   return createdQuestion;
 };
 
-const getQuestionById = async (id: string): Promise<Question> => {
+const getQuestionById = async (id: string): Promise<Partial<Question>> => {
   const questionData = await prisma.question.findUnique({
     where: {
       id,
