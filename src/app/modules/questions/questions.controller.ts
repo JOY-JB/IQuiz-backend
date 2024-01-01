@@ -31,6 +31,20 @@ const createQuestion = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getQuestionByCategory = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await questionService.getQuestionByCategory(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Question fetched successfully',
+      data: result,
+    });
+  }
+);
+
 const getQuestionById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await questionService.getQuestionById(id);
@@ -74,6 +88,7 @@ export const questionController = {
   getAllQuestions,
   createQuestion,
   getQuestionById,
+  getQuestionByCategory,
   updateQuestionById,
   deleteQuestionById,
 };

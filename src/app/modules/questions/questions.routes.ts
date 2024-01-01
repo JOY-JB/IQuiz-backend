@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get('/', questionController.getAllQuestions);
 
+router.get('/category/:id', questionController.getQuestionByCategory);
+
 router.get('/:id', questionController.getQuestionById);
 
 router.post(

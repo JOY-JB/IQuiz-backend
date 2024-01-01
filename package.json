@@ -1,5 +1,5 @@
 {
-  "name": "fotoshots-backend",
+  "name": "iquiz-backend",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",

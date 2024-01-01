@@ -38,6 +38,35 @@ const getAllQuestions = async (
   };
 };
 
+const getQuestionByCategory = async (
+  quizCategoryId: string
+): Promise<Partial<Question[]>> => {
+  const categoryData = await prisma.quizCategory.findUnique({
+    where: {
+      id: quizCategoryId,
+    },
+  });
+
+  if (!categoryData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Category not found!');
+  }
+
+  const questionData = await prisma.question.findMany({
+    where: {
+      quizCategoryId,
+    },
+    include: {
+      quizzes: true,
+    },
+  });
+
+  if (!questionData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Question not found!');
+  }
+
+  return questionData;
+};
+
 const createQuestion = async (data: Question): Promise<Question> => {
   const createdQuestion = await prisma.question.create({
     data,
@@ -110,4 +139,5 @@ export const questionService = {
   getQuestionById,
   updateQuestionById,
   deleteQuestionById,
+  getQuestionByCategory,
 };
