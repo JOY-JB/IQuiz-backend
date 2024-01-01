@@ -82,6 +82,8 @@ const getAllPerformer = (options) => __awaiter(void 0, void 0, void 0, function*
             name: true,
             email: true,
             role: true,
+            quizzes: true,
+            quizAttempts: true,
         },
     });
     const total = yield prisma_1.default.question.count();

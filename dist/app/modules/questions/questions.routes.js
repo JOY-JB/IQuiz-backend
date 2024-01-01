@@ -12,6 +12,7 @@ const questions_controller_1 = require("./questions.controller");
 const questions_validation_1 = require("./questions.validation");
 const router = express_1.default.Router();
 router.get('/', questions_controller_1.questionController.getAllQuestions);
+router.get('/category/:id', questions_controller_1.questionController.getQuestionByCategory);
 router.get('/:id', questions_controller_1.questionController.getQuestionById);
 router.post('/', (0, validateRequest_1.default)(questions_validation_1.questionValidation.questionCreateValidationSchema), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), questions_controller_1.questionController.createQuestion);
 router.patch('/:id', (0, validateRequest_1.default)(questions_validation_1.questionValidation.questionUpdateValidationSchema), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), questions_controller_1.questionController.updateQuestionById);

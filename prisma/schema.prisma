@@ -21,7 +21,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   quizzes      QuizCategory[]
-  QuizAttempts QuizAttempt[]
+  quizAttempts QuizAttempt[]
 
   @@map("users")
 }
@@ -44,7 +44,7 @@ model Question {
   id             String       @id @default(uuid())
   text           String
   options        String[]
-  correctOption  String
+  correctOptions String[]
   quizCategoryId String
   quizzes        QuizCategory @relation(fields: [quizCategoryId], references: [id])
 

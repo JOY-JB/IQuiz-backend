@@ -98,6 +98,8 @@ const getAllPerformer = async (
       name: true,
       email: true,
       role: true,
+      quizzes: true,
+      quizAttempts: true,
     },
   });
 

@@ -42,6 +42,28 @@ const getAllQuestions = (options) => __awaiter(void 0, void 0, void 0, function*
         data: result,
     };
 });
+const getQuestionByCategory = (quizCategoryId) => __awaiter(void 0, void 0, void 0, function* () {
+    const categoryData = yield prisma_1.default.quizCategory.findUnique({
+        where: {
+            id: quizCategoryId,
+        },
+    });
+    if (!categoryData) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Category not found!');
+    }
+    const questionData = yield prisma_1.default.question.findMany({
+        where: {
+            quizCategoryId,
+        },
+        include: {
+            quizzes: true,
+        },
+    });
+    if (!questionData) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Question not found!');
+    }
+    return questionData;
+});
 const createQuestion = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const createdQuestion = yield prisma_1.default.question.create({
         data,
@@ -98,4 +120,5 @@ exports.questionService = {
     getQuestionById,
     updateQuestionById,
     deleteQuestionById,
+    getQuestionByCategory,
 };
