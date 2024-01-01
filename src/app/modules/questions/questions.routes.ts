@@ -9,6 +9,12 @@ const router = express.Router();
 
 router.get('/', questionController.getAllQuestions);
 
+router.get(
+  '/admin',
+  auth(ENUM_USER_ROLE.ADMIN),
+  questionController.getAllQuestionsForAdmin
+);
+
 router.get('/category/:id', questionController.getQuestionByCategory);
 
 router.get('/:id', questionController.getQuestionById);

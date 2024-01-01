@@ -84,7 +84,6 @@ const createQuizCategories = (data) => __awaiter(void 0, void 0, void 0, functio
     const isExist = yield prisma_1.default.quizCategory.findFirst({
         where: {
             title: data.title,
-            description: data.description,
             userId: data.userId,
         },
     });

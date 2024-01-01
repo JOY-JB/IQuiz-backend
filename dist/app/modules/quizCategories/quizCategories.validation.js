@@ -10,16 +10,12 @@ const quizCategoryCreateValidationSchema = zod_1.z.object({
         description: zod_1.z.string({
             required_error: 'Description is required',
         }),
-        category: zod_1.z.string({
-            required_error: 'Category is required',
-        }),
     }),
 });
 const quizCategoryUpdateValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
         title: zod_1.z.string().optional(),
         description: zod_1.z.string().optional(),
-        category: zod_1.z.string().optional(),
     }),
 });
 exports.quizCategoryValidation = {

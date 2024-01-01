@@ -22,7 +22,36 @@ const getAllQuestions = async (
       id: true,
       text: true,
       options: true,
-      quizCategoryId: true,
+      quizzes: true,
+    },
+  });
+
+  const total = await prisma.question.count();
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
+
+const getAllQuestionsForAdmin = async (
+  options: IPaginationOptions
+): Promise<IGenericResponse<Partial<Question>[]>> => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+
+  const result = await prisma.question.findMany({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    include: {
+      quizzes: true,
     },
   });
 
@@ -64,7 +93,14 @@ const getQuestionByCategory = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Question not found!');
   }
 
-  return questionData;
+  for (let i = questionData.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questionData[i], questionData[j]] = [questionData[j], questionData[i]];
+  }
+
+  const selectedQuestions = questionData.slice(0, 10);
+
+  return selectedQuestions;
 };
 
 const createQuestion = async (data: Question): Promise<Question> => {
@@ -140,4 +176,5 @@ export const questionService = {
   updateQuestionById,
   deleteQuestionById,
   getQuestionByCategory,
+  getAllQuestionsForAdmin,
 };

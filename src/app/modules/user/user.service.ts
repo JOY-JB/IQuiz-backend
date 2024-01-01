@@ -103,7 +103,11 @@ const getAllPerformer = async (
     },
   });
 
-  const total = await prisma.question.count();
+  const total = await prisma.user.count({
+    where: {
+      role: UserRole.PERFORMER,
+    },
+  });
 
   return {
     meta: {
@@ -138,7 +142,11 @@ const getAllAdmin = async (
     },
   });
 
-  const total = await prisma.question.count();
+  const total = await prisma.user.count({
+    where: {
+      role: UserRole.ADMIN,
+    },
+  });
 
   return {
     meta: {

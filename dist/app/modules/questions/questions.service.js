@@ -29,7 +29,29 @@ const getAllQuestions = (options) => __awaiter(void 0, void 0, void 0, function*
             id: true,
             text: true,
             options: true,
-            quizCategoryId: true,
+            quizzes: true,
+        },
+    });
+    const total = yield prisma_1.default.question.count();
+    return {
+        meta: {
+            total,
+            page,
+            limit,
+        },
+        data: result,
+    };
+});
+const getAllQuestionsForAdmin = (options) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(options);
+    const result = yield prisma_1.default.question.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
+        include: {
+            quizzes: true,
         },
     });
     const total = yield prisma_1.default.question.count();
@@ -62,7 +84,12 @@ const getQuestionByCategory = (quizCategoryId) => __awaiter(void 0, void 0, void
     if (!questionData) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Question not found!');
     }
-    return questionData;
+    for (let i = questionData.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questionData[i], questionData[j]] = [questionData[j], questionData[i]];
+    }
+    const selectedQuestions = questionData.slice(0, 10);
+    return selectedQuestions;
 });
 const createQuestion = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const createdQuestion = yield prisma_1.default.question.create({
@@ -121,4 +148,5 @@ exports.questionService = {
     updateQuestionById,
     deleteQuestionById,
     getQuestionByCategory,
+    getAllQuestionsForAdmin,
 };

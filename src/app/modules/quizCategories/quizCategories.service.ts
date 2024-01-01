@@ -78,7 +78,6 @@ const createQuizCategories = async (
   const isExist = await prisma.quizCategory.findFirst({
     where: {
       title: data.title,
-      description: data.description,
       userId: data.userId,
     },
   });

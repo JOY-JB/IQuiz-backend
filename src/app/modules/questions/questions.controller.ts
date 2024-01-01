@@ -20,6 +20,22 @@ const getAllQuestions = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllQuestionsForAdmin = catchAsync(
+  async (req: Request, res: Response) => {
+    const options = pick(req.query, paginationFields);
+
+    const result = await questionService.getAllQuestionsForAdmin(options);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Questions fetched successfully!',
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
+
 const createQuestion = catchAsync(async (req: Request, res: Response) => {
   const result = await questionService.createQuestion(req.body);
 
@@ -91,4 +107,5 @@ export const questionController = {
   getQuestionByCategory,
   updateQuestionById,
   deleteQuestionById,
+  getAllQuestionsForAdmin,
 };

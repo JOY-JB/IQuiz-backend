@@ -86,7 +86,11 @@ const getAllPerformer = (options) => __awaiter(void 0, void 0, void 0, function*
             quizAttempts: true,
         },
     });
-    const total = yield prisma_1.default.question.count();
+    const total = yield prisma_1.default.user.count({
+        where: {
+            role: client_1.UserRole.PERFORMER,
+        },
+    });
     return {
         meta: {
             total,
@@ -114,7 +118,11 @@ const getAllAdmin = (options) => __awaiter(void 0, void 0, void 0, function* () 
             role: true,
         },
     });
-    const total = yield prisma_1.default.question.count();
+    const total = yield prisma_1.default.user.count({
+        where: {
+            role: client_1.UserRole.ADMIN,
+        },
+    });
     return {
         meta: {
             total,

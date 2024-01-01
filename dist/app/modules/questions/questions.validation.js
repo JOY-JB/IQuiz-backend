@@ -10,8 +10,8 @@ const questionCreateValidationSchema = zod_1.z.object({
         options: zod_1.z.array(zod_1.z.string(), {
             required_error: 'Options are required',
         }),
-        correctOption: zod_1.z.string({
-            required_error: 'Correct option is required',
+        correctOptions: zod_1.z.array(zod_1.z.string(), {
+            required_error: 'correctOptions are required',
         }),
         quizCategoryId: zod_1.z.string({
             required_error: 'Quiz category ID is required',

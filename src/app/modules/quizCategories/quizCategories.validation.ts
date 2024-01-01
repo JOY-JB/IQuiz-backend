@@ -8,9 +8,6 @@ const quizCategoryCreateValidationSchema = z.object({
     description: z.string({
       required_error: 'Description is required',
     }),
-    category: z.string({
-      required_error: 'Category is required',
-    }),
   }),
 });
 
@@ -18,7 +15,6 @@ const quizCategoryUpdateValidationSchema = z.object({
   body: z.object({
     title: z.string().optional(),
     description: z.string().optional(),
-    category: z.string().optional(),
   }),
 });
 
