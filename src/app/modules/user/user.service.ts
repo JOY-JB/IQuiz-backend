@@ -1,10 +1,13 @@
-import { User } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
 
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 import { utils } from '../../../shared/utils';
 import { IUserResponse } from './user.interface';
@@ -75,7 +78,79 @@ const createAdmin = async (data: User): Promise<IUserResponse> => {
   return result;
 };
 
+const getAllPerformer = async (
+  options: IPaginationOptions
+): Promise<IGenericResponse<Partial<User>[]>> => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+
+  const result = await prisma.user.findMany({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    where: {
+      role: UserRole.PERFORMER,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+
+  const total = await prisma.question.count();
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
+
+const getAllAdmin = async (
+  options: IPaginationOptions
+): Promise<IGenericResponse<Partial<User>[]>> => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+
+  const result = await prisma.user.findMany({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    where: {
+      role: UserRole.ADMIN,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+
+  const total = await prisma.question.count();
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
+
 export const userService = {
   createPerformer,
   createAdmin,
+  getAllPerformer,
+  getAllAdmin,
 };

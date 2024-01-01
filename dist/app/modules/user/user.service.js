@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
+const client_1 = require("@prisma/client");
 const http_status_1 = __importDefault(require("http-status"));
 const config_1 = __importDefault(require("../../../config"));
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
+const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const utils_1 = require("../../../shared/utils");
 const createPerformer = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,7 +66,65 @@ const createAdmin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
+const getAllPerformer = (options) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(options);
+    const result = yield prisma_1.default.user.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
+        where: {
+            role: client_1.UserRole.PERFORMER,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+        },
+    });
+    const total = yield prisma_1.default.question.count();
+    return {
+        meta: {
+            total,
+            page,
+            limit,
+        },
+        data: result,
+    };
+});
+const getAllAdmin = (options) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(options);
+    const result = yield prisma_1.default.user.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
+        where: {
+            role: client_1.UserRole.ADMIN,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+        },
+    });
+    const total = yield prisma_1.default.question.count();
+    return {
+        meta: {
+            total,
+            page,
+            limit,
+        },
+        data: result,
+    };
+});
 exports.userService = {
     createPerformer,
     createAdmin,
+    getAllPerformer,
+    getAllAdmin,
 };

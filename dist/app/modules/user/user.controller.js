@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
+const pagination_1 = require("../../../constants/pagination");
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
+const pick_1 = __importDefault(require("../../../shared/pick"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const user_service_1 = require("./user.service");
 const createPerformer = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,7 +37,31 @@ const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+const getAllPerformer = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const options = (0, pick_1.default)(req.query, pagination_1.paginationFields);
+    const result = yield user_service_1.userService.getAllPerformer(options);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Performer fetched successfully!',
+        meta: result.meta,
+        data: result.data,
+    });
+}));
+const getAllAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const options = (0, pick_1.default)(req.query, pagination_1.paginationFields);
+    const result = yield user_service_1.userService.getAllAdmin(options);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Admin fetched successfully!',
+        meta: result.meta,
+        data: result.data,
+    });
+}));
 exports.userController = {
     createPerformer,
     createAdmin,
+    getAllPerformer,
+    getAllAdmin,
 };

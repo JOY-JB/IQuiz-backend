@@ -11,6 +11,8 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const user_controller_1 = require("./user.controller");
 const user_validation_1 = require("./user.validation");
 const router = express_1.default.Router();
+router.get('/performers', user_controller_1.userController.getAllPerformer);
+router.get('/admins', user_controller_1.userController.getAllAdmin);
 router.post('/create-performer', (0, validateRequest_1.default)(user_validation_1.UserValidation.UserValidationSchema), user_controller_1.userController.createPerformer);
 router.post('/create-admin', (0, validateRequest_1.default)(user_validation_1.UserValidation.UserValidationSchema), (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), user_controller_1.userController.createAdmin);
 exports.userRoutes = router;

@@ -7,6 +7,10 @@ import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
+router.get('/performers', userController.getAllPerformer);
+
+router.get('/admins', userController.getAllAdmin);
+
 router.post(
   '/create-performer',
   validateRequest(UserValidation.UserValidationSchema),
