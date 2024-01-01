@@ -64,6 +64,8 @@ const getAllQuizCategories = (filters, options) => __awaiter(void 0, void 0, voi
         where: whereConditions,
         include: {
             user: true,
+            questions: true,
+            QuizAttempts: true,
         },
     });
     const total = yield prisma_1.default.quizCategory.count({
@@ -101,6 +103,11 @@ const getQuizCategoriesById = (id) => __awaiter(void 0, void 0, void 0, function
     const quizCategoryData = yield prisma_1.default.quizCategory.findUnique({
         where: {
             id,
+        },
+        include: {
+            user: true,
+            questions: true,
+            QuizAttempts: true,
         },
     });
     if (!quizCategoryData) {

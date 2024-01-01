@@ -53,6 +53,8 @@ const getAllQuizCategories = async (
     where: whereConditions,
     include: {
       user: true,
+      questions: true,
+      QuizAttempts: true,
     },
   });
 
@@ -99,6 +101,11 @@ const getQuizCategoriesById = async (id: string): Promise<QuizCategory> => {
   const quizCategoryData = await prisma.quizCategory.findUnique({
     where: {
       id,
+    },
+    include: {
+      user: true,
+      questions: true,
+      QuizAttempts: true,
     },
   });
 
