@@ -11,6 +11,8 @@ router.get('/performers', userController.getAllPerformer);
 
 router.get('/admins', userController.getAllAdmin);
 
+router.get('/', userController.getAllPerformer);
+
 router.post(
   '/create-performer',
   validateRequest(UserValidation.UserValidationSchema),

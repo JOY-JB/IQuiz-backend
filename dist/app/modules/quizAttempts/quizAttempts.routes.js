@@ -11,5 +11,5 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const quizAttempts_controller_1 = require("./quizAttempts.controller");
 const quizAttempts_validation_1 = require("./quizAttempts.validation");
 const router = express_1.default.Router();
-router.post('/submit', (0, validateRequest_1.default)(quizAttempts_validation_1.quizAttemptValidation.quizAttemptCreateValidationSchema), (0, auth_1.default)(user_1.ENUM_USER_ROLE.PERFORMER), quizAttempts_controller_1.quizAttemptController.submitQuizAttempt);
+router.post('/submit', (0, validateRequest_1.default)(quizAttempts_validation_1.quizAttemptValidation.quizAttemptCreateValidationSchema), (0, auth_1.default)(user_1.ENUM_USER_ROLE.PERFORMER, user_1.ENUM_USER_ROLE.ADMIN), quizAttempts_controller_1.quizAttemptController.submitQuizAttempt);
 exports.quizAttemptRoutes = router;

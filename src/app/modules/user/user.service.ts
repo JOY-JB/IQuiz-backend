@@ -157,10 +157,42 @@ const getAllAdmin = async (
     data: result,
   };
 };
+const getAllUsers = async (
+  options: IPaginationOptions
+): Promise<IGenericResponse<Partial<User>[]>> => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+
+  const result = await prisma.user.findMany({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+
+  const total = await prisma.user.count();
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
 
 export const userService = {
   createPerformer,
   createAdmin,
   getAllPerformer,
   getAllAdmin,
+  getAllUsers,
 };

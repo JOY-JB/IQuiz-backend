@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   '/submit',
   validateRequest(quizAttemptValidation.quizAttemptCreateValidationSchema),
-  auth(ENUM_USER_ROLE.PERFORMER),
+  auth(ENUM_USER_ROLE.PERFORMER, ENUM_USER_ROLE.ADMIN),
   quizAttemptController.submitQuizAttempt
 );
 

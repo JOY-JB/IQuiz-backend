@@ -55,10 +55,24 @@ const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
     data: result.data,
   });
 });
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const options = pick(req.query, paginationFields);
+
+  const result = await userService.getAllUsers(options);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Users fetched successfully!',
+    meta: result.meta,
+    data: result.data,
+  });
+});
 
 export const userController = {
   createPerformer,
   createAdmin,
   getAllPerformer,
   getAllAdmin,
+  getAllUsers,
 };
