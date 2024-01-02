@@ -11,7 +11,7 @@ router.get('/performers', userController.getAllPerformer);
 
 router.get('/admins', userController.getAllAdmin);
 
-router.get('/', userController.getAllPerformer);
+router.get('/', userController.getAllUsers);
 
 router.post(
   '/create-performer',

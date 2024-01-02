@@ -59,9 +59,21 @@ const getAllAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result.data,
     });
 }));
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const options = (0, pick_1.default)(req.query, pagination_1.paginationFields);
+    const result = yield user_service_1.userService.getAllUsers(options);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Users fetched successfully!',
+        meta: result.meta,
+        data: result.data,
+    });
+}));
 exports.userController = {
     createPerformer,
     createAdmin,
     getAllPerformer,
     getAllAdmin,
+    getAllUsers,
 };

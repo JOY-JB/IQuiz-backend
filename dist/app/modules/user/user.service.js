@@ -116,6 +116,8 @@ const getAllAdmin = (options) => __awaiter(void 0, void 0, void 0, function* () 
             name: true,
             email: true,
             role: true,
+            quizzes: true,
+            quizAttempts: true,
         },
     });
     const total = yield prisma_1.default.user.count({
@@ -132,9 +134,37 @@ const getAllAdmin = (options) => __awaiter(void 0, void 0, void 0, function* () 
         data: result,
     };
 });
+const getAllUsers = (options) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(options);
+    const result = yield prisma_1.default.user.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            quizzes: true,
+            quizAttempts: true,
+        },
+    });
+    const total = yield prisma_1.default.user.count();
+    return {
+        meta: {
+            total,
+            page,
+            limit,
+        },
+        data: result,
+    };
+});
 exports.userService = {
     createPerformer,
     createAdmin,
     getAllPerformer,
     getAllAdmin,
+    getAllUsers,
 };

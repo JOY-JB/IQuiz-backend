@@ -139,6 +139,8 @@ const getAllAdmin = async (
       name: true,
       email: true,
       role: true,
+      quizzes: true,
+      quizAttempts: true,
     },
   });
 
@@ -174,6 +176,8 @@ const getAllUsers = async (
       name: true,
       email: true,
       role: true,
+      quizzes: true,
+      quizAttempts: true,
     },
   });
 
